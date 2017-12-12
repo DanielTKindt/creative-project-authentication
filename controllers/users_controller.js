@@ -68,17 +68,64 @@ exports.updateUser = function(req, res){
     User.findOne({ _id: req.session.user })
         .exec(function(err, user) {
             user.set('email', req.body.email);
-            user.set('color', req.body.color);
             user.save(function(err) {
                 if (err){
                     res.sessor.error = err;
                 } else {
                     req.session.msg = 'User Updated.';
-                    req.session.color = req.body.color;
                 }
                 res.redirect('/user');
             });
         });
+};
+exports.addUserContact = function (req, res) {
+    User.findOne({ _id: req.session.user })
+        .exec(function (err, user) {
+            user.contacts.push({
+                name: req.body.contact_name,
+                phone_number: req.body.contact_phone
+            });
+            user.save(function (err) {
+                var alert = {};
+                if (err){
+                    alert["msg"] = err;
+                    alert["type"] = "alert alert-danger alert-dismissable fade in";
+                } else {
+                    alert["msg"] = "Contact added to User.";
+                    alert["type"] = "alert alert-info alert-dismissable fade in";
+                }
+                req.session.alert = alert;
+                res.redirect('/user');
+            })
+        })
+};
+exports.updateUserContact = function (req, res) {
+    // first find the User for the session.
+    User.findOne({ _id: req.session.user })
+        .exec(function (err, user) {
+            // find the correct contact in the
+            // contacts array belonging to this
+            // user.
+        })
+};
+exports.deleteUserContact = function (req, res) {
+    User.findOne({ _id: req.session.user })
+        .exec(function (err, user) {
+            var c = user.contacts.id(req.body.contact_id);
+            c.remove();
+            user.save(function (err) {
+                var alert = {};
+                if (err) {
+                    alert["msg"] = err;
+                    alert["type"] = "alert alert-danger alert-dismissable fade in";
+                } else {
+                    alert["msg"] = "Contact deleted from User contacts.";
+                    alert["type"] = "alert alert-info alert-dismissable fade in";
+                }
+                req.session.alert = alert;
+                res.redirect('/user');
+            })
+        })
 };
 exports.deleteUser = function(req, res){
     User.findOne({ _id: req.session.user })

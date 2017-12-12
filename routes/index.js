@@ -22,7 +22,18 @@ router.get('/', function(req, res){
 router.get('/user', function(req, res){
     console.log("/user Route");
     if (req.session.user) {
-        res.render('user', {msg:req.session.msg});
+        var params = {msg: req.session.msg};
+        if (req.session.alert) {
+            params["alertMSG"] = req.session.alert.msg;
+            params["alertType"] = req.session.alert.type;
+        } else {
+            params["alertMSG"] = "";
+            params["alertType"] = "";
+        }
+        res.render('user', params);
+        if (req.session.alert) {
+            req.session.alert = {};
+        }
     } else {
         req.session.msg = 'Access denied!';
         res.redirect('/login');
@@ -50,6 +61,8 @@ router.get('/logout', function(req, res){
 });
 router.post('/signup', users.signup);
 router.post('/user/update', users.updateUser);
+router.post('/user/contacts/add', users.addUserContact);
+router.post('/user/contacts/delete', users.deleteUserContact);
 router.post('/user/delete', users.deleteUser);
 router.post('/login', users.login);
 router.get('/user/profile', users.getUserProfile);

@@ -11,78 +11,99 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="http://code.angularjs.org/1.2.9/angular.min.js"></script>
+    <script src="/javascripts/my_app.js"></script>
 </head>
 
-<body>
-<div class="form-container" ng-controller="myController">
-    <h2 id="sectionTitle" class="form-header">
+<body ng-controller="myController">
+<!-- Top div/section for the page header-->
+<div class="container">
+    <h1 id="sectionTitle" class="page-header">
         User Profile
         <small>
             <span id="userMsg"><%= msg %></span>
             <a id="homeLink" href="/">Home</a>
         </small>
-    </h2>
-
-    <hr>
-    <form method="POST" action="/user/update" class="form-horizontal">
-        <div class="form-group row">
-            <div class="col-sm-12">
-                <label style="padding-right:15px;">Username:</label>
-                <input type="text" id="username" name="username" ng-model="user.username" disabled>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-sm-12">
-                <label style="padding-right:45px;">Email:</label>
-                <input type="email" id="email" name="email" ng-model="user.email">
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <div class="col-sm-12 center-block">
-                <input class="btn btn-primary" type="submit" id="save" value="Save">
-            </div>
-        </div>
-    </form>
+    </h1>
+    <div class="<%= alertType %>" id="update-alert-messages"><%= alertMSG %></div>
 </div>
-<form method="POST" action="/user/delete">
-    <input class="btn btn-danger" type="submit" id="delete" value="Delete User">
-</form>
-<hr>
 
+<!-- Middle div/section for editing the basic information -->
+<div class="container">
+    <h3><em>Basic Information</em></h3>
+    <div class="form-container">
+        <form method="POST" action="/user/update" class="form-horizontal">
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label style="padding-right:15px;">Username:</label>
+                    <input type="text" id="username" name="username" ng-model="user.username" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label style="padding-right:45px;">Email:</label>
+                    <input type="email" id="email" name="email" ng-model="user.email">
+                </div>
+            </div>
 
-<div class="form-group row">
-    <div class="col-sm-12">
-        <label style="padding-right: 20px;">Contacts:</label>
-        <!-- Display the contacts from Mongo -->
-        <table class="table table-hover" style="padding: 1.5em;">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th class="text-center">Phone Number</th>
-                <th class="text-center"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="contact in contacts">
-                <td>{{contact.name}}</td>
-                <td class="text-center">{{contact.number}}</td>
-                <td class="text-center" colspan="2">
-                    <a href ng-click="delete(contact)" style="color: red; text-decoration: none;">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </a>    /
-                    <a href ng-click="sendSMS(contact)" style="text-decoration:none;">
-                        <span class="glyphicon glyphicon-send"></span>
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table><!-- End of table -->
+            <div class="form-group row">
+                <div class="col-sm-12 center-block">
+                    <input class="btn btn-primary" type="submit" id="save" value="Save">
+                </div>
+            </div>
+        </form>
     </div>
+    <hr>
 </div>
 
-<script src="http://code.angularjs.org/1.2.9/angular.min.js"></script>
-<script src="/javascripts/my_app.js"></script>
-</body>
+<!-- Third div/section for editing contact list -->
+<div class="container">
+    <h3 class="header clearfix"><em>Contact List  </em><button class="btn btn-xs btn-success" id="showAddContact">add new</button></h3>
+        <form id="add-contact" method="POST" action="/user/contacts/add">
+            <input type="text" id="contact_name" name="contact_name" placeholder="Contact Name">
+            <input type="text" id="contact_phone" name="contact_phone" placeholder="Contact Phone Number">
+            <button class="btn btn-primary" type="submit">Add Contact</button>
+        </form>
+    <br>
+    <!-- Display the contacts -->
+    <table class="table table-hover" style="padding: 1.5em;">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th class="text-center">Phone Number</th>
+            <th class="text-center"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="contact in user.contacts">
+            <td>{{contact.name}}</td>
+            <td class="text-center">{{contact.phone_number}}</td>
+            <td class="text-center" colspan="2">
+                <form method="POST" action="/user/contacts/delete">
+                    <input type="text" id="contact_id" name="contact_id" value="{{contact._id}}" hidden>
+                    <button class="btn btn-danger btn-xs" type="submit">Remove</button>
+                </form>
+            </td>
 
+        </tr>
+        </tbody>
+    </table><!-- End of table -->
+    <hr>
+</div>
+
+<div class="container">
+    <form method="POST" action="/user/delete">
+        <input class="btn btn-danger" type="submit" id="delete" value="Delete User">
+    </form>
+    <hr>
+</div>
+
+<script type="text/javascript">
+    $('form#add-contact').hide();
+    $('#showAddContact').click(function (e) {
+        $('form#add-contact').toggle('fast');
+    });
+</script>
+
+</body>
 </html>

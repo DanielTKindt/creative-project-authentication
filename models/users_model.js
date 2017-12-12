@@ -9,8 +9,7 @@ var ContactSchema = new Schema({
                 return /\d{3}-*\d{3}-*\d{4}/.test(v);
             },
             message: '{VALUE} is not a valid phone number! Must follow format: 123-123-1234'
-        },
-        required: [true, 'A phone number is required']
+        }
     }
 });
 var UserSchema = new Schema({
