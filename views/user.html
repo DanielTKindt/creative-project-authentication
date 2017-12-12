@@ -3,32 +3,86 @@
 
 <head>
     <title>User Login and Sessions</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 
 <body>
 <div class="form-container" ng-controller="myController">
-    <p id="sectionTitle" class="form-header">User Profile</p>
-    <form method="POST" action="/user/update">
-        <label>Username:</label>
-        <input type="text" id="username" name="username" ng-model="user.username" disabled><br>
-        <label>Email:</label>
-        <input type="email" id="email" name="email" ng-model="user.email"><br>
-        <label>Favorite Color:</label>
-        <input type="text" id="color" name="color" ng-model="user.color"><br>
-        <input type="submit" id="save" value="Save">
+    <h2 id="sectionTitle" class="form-header">
+        User Profile
+        <small>
+            <span id="userMsg"><%= msg %></span>
+            <a id="homeLink" href="/">Home</a>
+        </small>
+    </h2>
+
+    <hr>
+    <form method="POST" action="/user/update" class="form-horizontal">
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <label style="padding-right:15px;">Username:</label>
+                <input type="text" id="username" name="username" ng-model="user.username" disabled>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <label style="padding-right:45px;">Email:</label>
+                <input type="email" id="email" name="email" ng-model="user.email">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-12 center-block">
+                <input class="btn btn-primary" type="submit" id="save" value="Save">
+            </div>
+        </div>
     </form>
 </div>
 <form method="POST" action="/user/delete">
-    <input type="submit" id="delete" value="Delete User">
+    <input class="btn btn-danger" type="submit" id="delete" value="Delete User">
 </form>
 <hr>
-<span id="userMsg">
-    <%= msg %>
-    </span>
+
+
+<div class="form-group row">
+    <div class="col-sm-12">
+        <label style="padding-right: 20px;">Contacts:</label>
+        <!-- Display the contacts from Mongo -->
+        <table class="table table-hover" style="padding: 1.5em;">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th class="text-center">Phone Number</th>
+                <th class="text-center"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="contact in contacts">
+                <td>{{contact.name}}</td>
+                <td class="text-center">{{contact.number}}</td>
+                <td class="text-center" colspan="2">
+                    <a href ng-click="delete(contact)" style="color: red; text-decoration: none;">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>    /
+                    <a href ng-click="sendSMS(contact)" style="text-decoration:none;">
+                        <span class="glyphicon glyphicon-send"></span>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table><!-- End of table -->
+    </div>
+</div>
+
 <script src="http://code.angularjs.org/1.2.9/angular.min.js"></script>
 <script src="/javascripts/my_app.js"></script>
-<a id="homeLink" href="/">Home</a>
 </body>
 
 </html>
