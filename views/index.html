@@ -17,13 +17,10 @@
 
 <body ng-controller="myController">
 <div class="container">
-    <h2 id="welcomeText">Welcome. You are Logged In as
-        <%= username %>
+    <h2 id="welcomeText">Welcome, <%= username %>!
     </h2>
-    <a id="logoutLink" href="/logout">logout</a>
-    <a id="editLink" href="/user">Edit User</a>
-    <p>Place Your Code Here
-    <p>
+    <a id="logoutLink" href="/logout">logout</a> | 
+    <a id="editLink" href="/user">Edit Contacts</a>
     <hr>
 </div>
 
@@ -36,7 +33,7 @@
         <tr>
             <th>Name</th>
             <th class="text-center">Phone Number</th>
-            <th class="text-center"></th>
+	    <th class="text-center">Send Message</th>
         </tr>
         </thead>
         <tbody>
@@ -54,9 +51,5 @@
     <hr>
 </div>
 
-<div class="container">
-    <span id="indexMsg"><%= msg %></span>
-    <hr>
-</div>
 </body>
 </html>
