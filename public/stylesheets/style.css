@@ -1,8 +1,38 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-repeat: no-repeat;
+  margin: 0;
+  height: 100%;
+background: #44A08D;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to bottom, #093637, #44A08D);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to bottom, #093637, #44A08D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+;
+
+}
+
+h1, h2, h3{
+	color: #f4a460;
+	font-style: bold;
+}
+
+label, p, th{
+   color: #f4a460;
 }
 
 a {
-  color: #00B7FF;
+  color: white;
+  font-size: large;
+}
+
+html{
+  height: 100%;
+}
+
+#login {
+  padding: 5px;
+  background: white;
+  border-radius: 15px;
+  border: none;
+  font-size: large;
 }
