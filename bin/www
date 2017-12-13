@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var app = require('../app');
-var debug = require('debug')('creative-project-authentication');
+var debug = require('debug')('creative-project-authentication:server');
 
 var http = require('http');
 
