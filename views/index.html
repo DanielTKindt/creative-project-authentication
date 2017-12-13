@@ -11,10 +11,12 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="http://code.angularjs.org/1.2.9/angular.min.js"></script>
+    <script src="/javascripts/my_app.js"></script>
 </head>
 
-<body>
-<div ng-controller="myController">
+<body ng-controller="myController">
+<div class="container">
     <h2 id="welcomeText">Welcome. You are Logged In as
         <%= username %>
     </h2>
@@ -22,18 +24,39 @@
     <a id="editLink" href="/user">Edit User</a>
     <p>Place Your Code Here
     <p>
+    <hr>
 </div>
-<hr>
-<span id="indexMsg">
-    <%= msg %>
-</span>
-<hr>
-<span id="colorText">
-    Contacts
-    <%= color %>
-</span>
-<script src="http://code.angularjs.org/1.2.9/angular.min.js"></script>
-<script src="/javascripts/my_app.js"></script>
-</body>
 
+<div class="container">
+    <h3 class="header clearfix"><em>Contact List</em></h3>
+    <br>
+    <!-- Display the contacts -->
+    <table class="table table-hover" style="padding: 1.5em;">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th class="text-center">Phone Number</th>
+            <th class="text-center"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="contact in user.contacts">
+            <td>{{contact.name}}</td>
+            <td class="text-center">{{contact.phone_number}}</td>
+            <td class="text-center" colspan="2">
+                <a href ng-click="sendSMS(contact)" style="text-decoration:none;">
+                    <span class="glyphicon glyphicon-send"></span>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+</div>
+
+<div class="container">
+    <span id="indexMsg"><%= msg %></span>
+    <hr>
+</div>
+</body>
 </html>
