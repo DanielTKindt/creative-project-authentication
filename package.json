@@ -1,16 +1,5 @@
 {
   "name": "creative-project-authentication",
-  "contributors": [
-    {
-      "name": "Daniel Kindt"
-    },
-    {
-      "name": "JD Cook"
-    },
-    {
-      "name": "Branden Foley"
-    }
-  ],
   "version": "0.0.1",
   "private": true,
   "scripts": {
